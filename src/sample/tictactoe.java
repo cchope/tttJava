@@ -11,6 +11,7 @@ public class tictactoe {
     private int round;
     private  int gameType;
     private Character computer;
+    private Character playerSymbol;
     private ArrayList<ArrayList<Character>> board;
 
 
@@ -93,6 +94,9 @@ public class tictactoe {
         this.board = board;
     }
 
+    public char getPlaterSymbol() { return this.playerSymbol; }
+
+    public void setPlayerSymbol(char playerSymbol) {this.playerSymbol = playerSymbol; }
 
     public void playGame() {
         boolean isValid;
@@ -112,36 +116,35 @@ public class tictactoe {
             else {
                 playerSymbol= player2;
             }
-            //gets user input on row, col
-//            cout << "Please enter the row and column of the space you would like to play: ";
-//            cin >> rowcol;
-//            r= rowcol.substr(0,1);
-//            row = stoi(r);
-//            c = rowcol.substr(1,2);
-//            col = stoi(c);
+        }
+    }
+
+    public void playTurn(int row, int col) {
+        boolean isValid = isValidInput(row-1, col-1);
+            //basic struture for turn, need to implement specifics
+            if(!isValid) {
+                round --;
+                return;
+            } else {
+                this.playerSymbol = board.get(row-1).get(col-1);
+               // board.get(row-1).get(col-1)
+                boolean win = isWin(playerSymbol);
+                boolean full = isFull();
+                //will be a graphics call
+                //drawBoard();
+            if(win) {
+                //win message cout << "Congrats! You have won!" << endl;
+                this.gameOver = true;
+                //break;
+            } else if(full){
+//              //output message: cout << "The board is full! It's a tie" << endl;
+                this.gameOver = true;
+//                break;
+            } else {
+                turn = 2;
+            }
 
 
-//            isValid = isValidChoice(row-1, col-1);
-//            if(!isValid) {
-//                round --;
-//                playGame();
-//            }
-//            board[row-1][col-1] = playerSymbol;
-//            bool win = isWin(playerSymbol);
-//            bool full = isFull();
-//            drawBoard();
-//            if(win) {
-//                cout << "Congrats! You have won!" << endl;
-//                gameOver = true;
-//                break;
-//            } else if(full){
-//                cout << "The board is full! It's a tie" << endl;
-//                gameOver = true;
-//                break;
-//            } else {
-//                turn = 2;
-//            }
-//            continue;
 //        } else if(turn == 2 && gameType == 1) {
 //            cout << "Computer's turn: " << endl;
 //            tie(row, col) = computerTurn(computer);
@@ -190,9 +193,10 @@ public class tictactoe {
 //            }
 //            continue;
 //        }
-        }
+            }
     }
 
+    //ends game if there has been a match
     public boolean isWin(char player) {
         boolean win;
         for (int i = 0; i < 3; i++) {
@@ -243,6 +247,7 @@ public class tictactoe {
         return false;
     }
 
+    //makes sure that gameboard has not already been occupied
     public boolean isFull() {
         for(int i=0; i<3; i++) {
             for(int j=0; j<3; j++){
@@ -254,6 +259,7 @@ public class tictactoe {
         return true;
     }
 
+    //checks for valid input of the user
     public boolean isValidInput(int row, int col) {
         if(row > 3 || row < 0) {
             System.out.println("Please enter a valid row and column number (1-3)");
